@@ -15,4 +15,6 @@ export abstract class UserRepository {
     abstract deleteById(id: number): Promise<UserEntity>
 
     abstract loginUser(loginUserDto: LoginUserDto): Promise<UserEntity>
+
+    abstract validateEmail(token: string): Promise<UserEntity>
 }

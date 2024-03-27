@@ -32,7 +32,7 @@ export class UserDatasourceImpl implements UserDataSource {
 
         if (!user) throw new Error(`User with email ${email} not found`);
 
-        const {password, ...userwithoutpassword} = UserEntity.fromObjet(user);
+        const { password, ...userwithoutpassword } = UserEntity.fromObjet(user);
 
         return userwithoutpassword
     }
@@ -52,14 +52,14 @@ export class UserDatasourceImpl implements UserDataSource {
     async loginUser(loginUserDto: LoginUserDto): Promise<UserEntity> {
         const user = await prisma.users_lotery.findUnique({ where: { email: loginUserDto.email } });
         if (!user) throw new Error('Email not exist');
-    
+
         const isMatching = bcryptAdapter.compare(loginUserDto.password, user.password);
         if (!isMatching) throw new Error('Password is not valid');
-    
-        const {password, ...userwithoutpassword} = UserEntity.fromObjet(user);
-    
+
+        const { password, ...userwithoutpassword } = UserEntity.fromObjet(user);
+
         // Generar el token
-        const token = await JwtGenerator.generateToken({id: user.id})
+        const token = await JwtGenerator.generateToken({ id: user.id })
         if (!token) throw new Error('Token Null')
 
 
@@ -67,6 +67,26 @@ export class UserDatasourceImpl implements UserDataSource {
             ...userwithoutpassword,
             token: token as string
         }
+    }
+
+    async validateEmail(token: string): Promise<UserEntity> {
+
+        const payload = await JwtGenerator.validateToken(token);
+        if(!payload) throw new Error('Token not valid')
+
+        const {email} = payload as {email: string}
+        if (!email) throw new Error("No email in Payload")
+
+        const user = await prisma.users_lotery.findUnique({ where: { email } })
+        if(!user) throw  new Error('User Not Found')
+
+        const updatedUser = await prisma.users_lotery.update({
+            where: { email },
+            data: { email_validated: true }
+        });
+
+        return  UserEntity.fromObjet(updatedUser)
+
     }
 
 }

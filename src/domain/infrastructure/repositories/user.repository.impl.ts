@@ -7,6 +7,9 @@ export class UserRepositoryImpl implements UserRepository{
     constructor(
         private readonly datasource: UserDataSource
     ){}
+    validateEmail(token: string): Promise<UserEntity> {
+        return this.datasource.validateEmail(token);
+    }
 
     create(RegisterUserDto: RegisterUserDto): Promise<UserEntity> {
         return this.datasource.create(RegisterUserDto)

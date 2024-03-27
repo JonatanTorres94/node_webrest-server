@@ -20,4 +20,4 @@ export * from './use-cases/user/delete-user'
 export * from './use-cases/user/get-all-user'
 export * from './use-cases/user/login-user'
 export * from './use-cases/user/get-user'
-
+export * from './use-cases/user/validate-email-user'

@@ -8,7 +8,8 @@ export class RegisterUserDto {
         public readonly email: string,
         public readonly password: string,
         public readonly role: string,
-        public readonly profile_img: string
+        public readonly profile_img: string,
+        
     ) { }
 
     static create(object: { [key: string]: any }): [string?, RegisterUserDto?] {
@@ -27,4 +28,5 @@ export class RegisterUserDto {
 
         return [undefined, new RegisterUserDto(name, email, password, finalRole, finalProfileImg)]
     }
+
 }

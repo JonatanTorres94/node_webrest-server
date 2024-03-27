@@ -9,5 +9,16 @@ export const envs = {
 
     JWT_SEED: get('JWT_SEED').required().asString(),
 
-    //TODO PONER EL RESTO DE VARIABLES
+    SA_PASSWORD: get('SA_PASSWORD').required().asString(),
+
+    MAILER_SERVICE: get('MAILER_SERVICE').required().asString(),
+
+    MAILER_EMAIL: get('MAILER_EMAIL').required().asString(),
+
+    MAILER_SECRET_KEY: get('MAILER_SECRET_KEY').asString(),
+
+    DATABASE_URL: get('DATABASE_URL').required(),
+
+    WEBSERVICE_URL: get('WEBSERVICE_URL').required().asString()
+    
 }
